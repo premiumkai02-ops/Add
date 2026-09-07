@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}ចូលប្រើប្រាស់ - Telegram Manager{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <div class="card p-4">
+            <div class="text-center mb-4">
+                <i class="fab fa-telegram" style="font-size: 4rem; color: #0088cc;"></i>
+                <h2 class="mt-3">ចូលប្រើប្រាស់</h2>
+                <p class="text-muted">បញ្ចូលព័ត៌មានដើម្បីចូលប្រើប្រព័ន្ធ</p>
+            </div>
+            
+            <form method="POST">
+                <div class="mb-3">
+                    <label for="username" class="form-label">ឈ្មោះអ្នកប្រើ</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="password" class="form-label">ពាក្យសម្ងាត់</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-sign-in-alt"></i> ចូលប្រើប្រាស់
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

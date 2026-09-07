@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}ទាញសមាជិក - Telegram Manager{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2 class="text-white mb-4">
+            <i class="fas fa-download"></i> ទាញសមាជិកពី Group ផ្សេង
+        </h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card p-4">
+            <h5>បញ្ចូលព័ត៌មាន Group ប្រភព</h5>
+            
+            <form method="POST">
+                <div class="mb-3">
+                    <label for="source_group" class="form-label">Group ប្រភព (@username)</label>
+                    <input type="text" class="form-control" id="source_group" name="source_group" 
+                           placeholder="@source_group" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="limit" class="form-label">ចំនួនសមាជិកអតិបរមា</label>
+                    <input type="number" class="form-control" id="limit" name="limit" 
+                           value="100" min="1" max="1000">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="search_keyword" class="form-label">ពាក្យគន្លឹះស្វែងរក (ស្រេចចិត្ត)</label>
+                    <input type="text" class="form-control" id="search_keyword" name="search_keyword" 
+                           placeholder="ឧទាហរណ៍: admin, bot, etc.">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-download"></i> ទាញសមាជិក
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card p-4">
+            <h5><i class="fas fa-info-circle"></i> ការណែនាំ</h5>
+            <ul class="list-unstyled">
+                <li class="mb-2">
+                    <i class="fas fa-check text-success"></i>
+                    ប្រើ @username របស់ Group ប្រភព
+                </li>
+                <li class="mb-2">
+                    <i class="fas fa-check text-success"></i>
+                    អាចទាញបានរហូតដល់ 1000 នាក់
+                </li>
+                <li class="mb-2">
+                    <i class="fas fa-exclamation-triangle text-warning"></i>
+                    ត្រូវជាសមាជិកនៃ Group ប្រភព
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% if members %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card p-4">
+            <h5>សមាជិកដែលបានទាញ ({{ total }} នាក់)</h5>
+            
+            <div class="alert alert-success">
+                ទាញសមាជិកបាន {{ total }} នាក់ដោយជោគជ័យ!
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>លេខរៀង</th>
+                            <th>ឈ្មោះ</th>
+                            <th>Username</th>
+                            <th>ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for member in members %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ member.first_name }} {{ member.last_name or '' }}</td>
+                            <td>@{{ member.username or 'មិនមាន' }}</td>
+                            <td>{{ member.id }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            <form method="POST" action="{{ url_for('add_scraped') }}">
+                <input type="hidden" name="delay" value="3">
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-user-plus"></i> បន្ថែមសមាជិកទាំងនេះទៅ Group
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

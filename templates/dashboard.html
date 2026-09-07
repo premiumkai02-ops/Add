@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}ទំព័រគ្រប់គ្រង - Telegram Manager{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2 class="text-white mb-4">
+            <i class="fas fa-tachometer-alt"></i> ទំព័រគ្រប់គ្រង
+        </h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <i class="fas fa-robot" style="color: #0088cc;"></i>
+            <div class="stat-number">
+                {% if status.is_running %}
+                    <span class="text-success">ដំណើរការ</span>
+                {% else %}
+                    <span class="text-danger">បញ្ឈប់</span>
+                {% endif %}
+            </div>
+            <p>ស្ថានភាព Userbot</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <i class="fas fa-users" style="color: #28a745;"></i>
+            <div class="stat-number">{{ status.total_scraped }}</div>
+            <p>សមាជិកដែលបានទាញ</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <i class="fas fa-user-plus" style="color: #17a2b8;"></i>
+            <div class="stat-number">{{ status.total_added }}</div>
+            <p>សមាជិកដែលបានបន្ថែម</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <i class="fas fa-exclamation-triangle" style="color: #ffc107;"></i>
+            <div class="stat-number">{{ status.stats.failed }}</div>
+            <p>បរាជ័យ</p>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card p-4">
+            <h5><i class="fas fa-cogs"></i> គ្រប់គ្រង Userbot</h5>
+            {% if status.is_running %}
+            <form method="POST" action="{{ url_for('stop_userbot') }}">
+                <button type="submit" class="btn btn-danger w-100">
+                    <i class="fas fa-stop"></i> បញ្ឈប់ Userbot
+                </button>
+            </form>
+            {% else %}
+            <form method="POST" action="{{ url_for('start_userbot') }}">
+                <button type="submit" class="btn btn-success w-100">
+                    <i class="fas fa-play"></i> ចាប់ផ្តើម Userbot
+                </button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card p-4">
+            <h5><i class="fas fa-tasks"></i> សកម្មភាព</h5>
+            <a href="{{ url_for('scrape_members') }}" class="btn btn-primary w-100 mb-2">
+                <i class="fas fa-download"></i> ទាញសមាជិក
+            </a>
+            <a href="{{ url_for('auto_add') }}" class="btn btn-info w-100">
+                <i class="fas fa-magic"></i> បន្ថែមស្វ័យប្រវត្តិ
+            </a>
+        </div>
+    </div>
+</div>
+
+{% if status.added_members %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card p-4">
+            <h5><i class="fas fa-history"></i> សមាជិកដែលបានបន្ថែមថ្មីៗ</h5>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ឈ្មោះ</th>
+                            <th>Username</th>
+                            <th>កាលបរិច្ឆេទ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for member in status.added_members %}
+                        <tr>
+                            <td>{{ member.first_name }} {{ member.last_name or '' }}</td>
+                            <td>@{{ member.username or 'មិនមាន' }}</td>
+                            <td>{{ member.added_at }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
