@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}បន្ថែមស្វ័យប្រវត្តិ - Telegram Manager{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2 class="text-white mb-4">
+            <i class="fas fa-magic"></i> បន្ថែមសមាជិកស្វ័យប្រវត្តិ
+        </h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card p-4">
+            <h5>កំណត់រចនាសម្ព័ន្ធការបន្ថែមស្វ័យប្រវត្តិ</h5>
+            
+            <form method="POST">
+                <div class="mb-3">
+                    <label for="source_group" class="form-label">Group ប្រភព (@username)</label>
+                    <input type="text" class="form-control" id="source_group" name="source_group" 
+                           placeholder="@source_group" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="limit" class="form-label">ចំនួនសមាជិក</label>
+                    <input type="number" class="form-control" id="limit" name="limit" 
+                           value="50" min="1" max="200">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="delay" class="form-label">រយៈពេលរង់ចាំរវាងការបន្ថែម (វិនាទី)</label>
+                    <input type="number" class="form-control" id="delay" name="delay" 
+                           value="3" min="1" max="60">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-magic"></i> ចាប់ផ្តើមបន្ថែមស្វ័យប្រវត្តិ
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card p-4">
+            <h5><i class="fas fa-shield-alt"></i> ការព្រមាន</h5>
+            <ul class="list-unstyled">
+                <li class="mb-2">
+                    <i class="fas fa-exclamation-triangle text-warning"></i>
+                    កុំកំណត់ delay ទាបពេក (អាចត្រូវបានកំណត់ដោយ Telegram)
+                </li>
+                <li class="mb-2">
+                    <i class="fas fa-exclamation-triangle text-warning"></i>
+                    អាចត្រូវការការផ្ទៀងផ្ទាត់ OTP ដំបូង
+                </li>
+                <li class="mb-2">
+                    <i class="fas fa-info-circle text-info"></i>
+                    ការបន្ថែមច្រើនពេកអាចប៉ះពាល់គណនី
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% if stats %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card p-4">
+            <h5>លទ្ធផលនៃការបន្ថែម</h5>
+            
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-number text-success">{{ stats.total_added }}</div>
+                        <p>បន្ថែមជោគជ័យ</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-number text-warning">{{ stats.skipped }}</div>
+                        <p>រំលង (មានរួចហើយ)</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-number text-danger">{{ stats.failed }}</div>
+                        <p>បរាជ័យ</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-number text-info">{{ stats.flood_waits }}</div>
+                        <p>Flood Waits</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
